@@ -16,6 +16,8 @@ jobs:
           sudo mkdir -p /github/workspace
           sudo mv app/* /github/workspace/
           ls -la /github/workspace
+          cd /github/workspace
+          pip install -r requirements.txt
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         continue-on-error: true
