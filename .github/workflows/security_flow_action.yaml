@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Move app location for Snyk
         run: |
-          mkdir -p /github/workspace
+          sudo mkdir -p /github/workspace
           mv app/* /github/workspace/
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
