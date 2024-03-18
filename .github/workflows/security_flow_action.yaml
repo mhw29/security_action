@@ -12,7 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Move app location for Snyk
-        run: mv app/* /github/workspace/
+        run: |
+          mkdir -p /github/workspace
+          mv app/* /github/workspace/
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         continue-on-error: true
