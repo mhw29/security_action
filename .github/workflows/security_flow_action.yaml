@@ -12,13 +12,15 @@ jobs:
       working-directory: ./app/example_django_app
     steps:
       - uses: actions/checkout@master
+      - name: Print current directory
+        run: pwd
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif
+          args: --sarif-file-output=snyk.sarif --workdir=${{ env.working-directory }}
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
