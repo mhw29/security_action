@@ -11,6 +11,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@master
+        with:
+          path: 'app'
       - name: Get directory
         run: pwd
       - name: Run Snyk to check for vulnerabilities
