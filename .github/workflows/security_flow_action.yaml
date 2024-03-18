@@ -15,6 +15,7 @@ jobs:
         run: |
           sudo mkdir -p /github/workspace
           sudo mv app/* /github/workspace/
+          ls -la /github/workspace
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         continue-on-error: true
