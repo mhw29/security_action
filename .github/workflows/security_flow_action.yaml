@@ -14,7 +14,7 @@ jobs:
       - name: Move app location for Snyk
         run: |
           sudo mkdir -p /github/workspace
-          mv app/* /github/workspace/
+          sudo mv app/* /github/workspace/
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         continue-on-error: true
