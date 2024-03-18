@@ -14,6 +14,8 @@ jobs:
         run: |
           docker run --name snykpython --workdir /github/workspace \
             -e "SNYK_TOKEN=${{ secrets.SNYK_TOKEN }}" \
+            -e "GITHUB_ACTIONS=true" \
+            -e "CI=true" \
             -v "/home/runner/work/security_action/security_action/app:/github/workspace" \
             snyk/snyk:python  "snyk" "test" "--sarif-file-output=snyk.sarif"
 
