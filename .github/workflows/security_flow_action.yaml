@@ -16,18 +16,20 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif --workdir /github/workspace/app/example_django_app
+          args: --sarif-file-output=snyk.sarif --workdir ~/app/example_django_app
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
   build:
+    needs: security
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: example_django_app
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+  needs: build
   deploy:
     runs-on: ubuntu-latest
     steps:
