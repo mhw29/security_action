@@ -11,14 +11,13 @@ jobs:
     
     steps:
       - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        working-directory: ./app
-        with:
-          args: --sarif-file-output=snyk.sarif
+      - name: Run Snyk to check for vulnerabilities (Docker)
+        run: |
+          docker run -it \
+            -e "SNYK_TOKEN=${{ secrets.SNYK_TOKEN }}" \
+            -v "${{ github.workspace }}:/project" \
+            snyk/snyk-cli:python test --org=my-org-name
+            
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
