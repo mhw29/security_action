@@ -8,17 +8,15 @@ on:
 jobs:
   security:
     runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
-        continue-on-error: true
+      - uses: actions/checkout@v2
+      - name: Run custom Snyk scan
+        uses: docker://snyk/snyk-cli:python-3.10
+        with:
+          args: test --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif
-        working-directory: /home/runner/work/security_action/app/
+        working-directory: ./app/example_django_app 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
