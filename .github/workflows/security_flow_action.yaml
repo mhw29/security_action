@@ -11,13 +11,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@master
-      - name: Move app location for Snyk
-        run: |
-          sudo mkdir -p /github/workspace
-          sudo mv app/* /github/workspace/
-          cd /github/workspace
-          pip install -r requirements.txt
-          ls -la /github/workspace
+      - name: Get directory
+        run: pwd
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         continue-on-error: true
