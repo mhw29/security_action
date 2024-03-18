@@ -13,11 +13,11 @@ jobs:
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities (Docker)
         run: |
-          docker run -it \
+          docker run --name snykpython --workdir /github/workspace \
             -e "SNYK_TOKEN=${{ secrets.SNYK_TOKEN }}" \
             -v "${{ github.workspace }}:/project" \
-            snyk/snyk-cli:python test --org=my-org-name
-            
+            snyk/snyk:python  "snyk" "test" "--sarif-file-output=snyk.sarif
+
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
