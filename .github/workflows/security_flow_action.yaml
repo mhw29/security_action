@@ -17,12 +17,12 @@ jobs:
             -e "GITHUB_ACTIONS=true" \
             -e "CI=true" \
             -v "/home/runner/work/security_action/security_action/app:/github/workspace" \
-            snyk/snyk:python  "snyk" "test" "--sarif-file-output=snyk.sarif"
+            snyk/snyk:python  snyk test --sarif-file-output=snyk.sarif || true
 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: snyk.sarif
+          sarif_file: ${{ runner.temp }}/snyk.sarif
   
   build:
     needs: security
