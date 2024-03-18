@@ -18,7 +18,9 @@ jobs:
             -e "CI=true" \
             -v "/home/runner/work/security_action/security_action/app:/github/workspace" \
             snyk/snyk:python  snyk test --sarif-file-output=snyk.sarif || true
-
+      - name: Get snyk.sarif
+        run: |
+          docker cp snykpython:/github/workspace/snyk.sarif ./app/snyk.sarif
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
