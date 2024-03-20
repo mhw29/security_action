@@ -26,8 +26,6 @@ jobs:
       - name: Get snyk.sarif
         run: |
           docker cp snykpython:/github/workspace/snyk.sarif ./app/snyk.sarif
-      - name: Get directory contents
-        run: ls -F ./app
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:

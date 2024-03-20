@@ -5,11 +5,32 @@ provider "github" {
 resource "github_repository" "this" {
   name        = "security_action"
   description = "This repository stores the github action example for security scanning"
-  private     = true
+  private     = false
+
+  security_and_analysis {
+    # advanced_security {
+    #   status = "enabled"
+    # }
+    secret_scanning {
+      status = "enabled"
+    }
+  }
 
   depends_on = [
     module.aws
   ]
+}
+
+# Define a GitHub Environment
+resource "github_repository_environment" "staging" {
+  repository      = github_repository.this.name
+  environment     = "staging"
+  wait_timer      = 0 # Optional: Set a wait timer (in minutes) for deployments to this environment
+
+  deployment_branch_policy {
+    protected_branches = true
+    custom_branch_policies = false # Set to true to allow specific branches
+  }
 }
 
 resource "github_actions_secret" "snyk_token" {
