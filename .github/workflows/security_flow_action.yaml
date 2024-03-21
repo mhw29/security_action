@@ -42,7 +42,7 @@ jobs:
           docker run --name snykdocker --workdir /github/workspace \
             -e "SNYK_TOKEN=${SNYK_TOKEN}" \
             -v "/var/run/docker.sock:/var/run/docker.sock" \
-            -v "$(pwd):/project" \
+            -v "$(pwd):/github/workspace" \
             snyk/snyk:docker snyk test --docker ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --file=Dockerfile  --sarif-file-output=snyk-docker.sarif || true
         
       - name: Get snyk-docker.sarif
