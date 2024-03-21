@@ -33,7 +33,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ./app/snyk-python.sarif
-          category: Python
+          category: python
 
       - name: Scan the Docker image with Snyk
         env:
@@ -53,7 +53,7 @@ jobs:
           uses: github/codeql-action/upload-sarif@v3
           with:
             sarif_file: ./app/snyk-docker.sarif
-            category: Docker
+            category: docker
   build:
     needs: security
     runs-on: ubuntu-latest
