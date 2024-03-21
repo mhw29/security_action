@@ -40,9 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: example_django_app
-    outputs:
-      build_image_name: ${{ steps.build-image.outputs.build_image_name }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -67,23 +64,20 @@ jobs:
         run: |
           # Build a docker container and push it to ECR 
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          echo "build_image_name=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-        
+
   image_scan:
     needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - env:
-        OUTPUT1: ${{needs.build.outputs.build_image_name}}
-      run: echo "The value of the output for image name is ${{ needs.build.outputs.image_name }}"
+
     - name: Run Snyk to check Docker image for vulnerabilities
       continue-on-error: true
       uses: snyk/actions/docker@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        image: ${{ needs.build.outputs.build_image_name }}
+        image: "${{ secrets.ECR_REPOSITORY_URI}}/${{ secrets.ECR_REPOSITORY_NAME}}:latest"
         args: --file=Dockerfile
 
     - name: Upload result to GitHub Code Scanning
