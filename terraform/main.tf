@@ -33,6 +33,17 @@ resource "github_repository_environment" "staging" {
   }
 }
 
+resource "github_repository_environment" "approval_required" {
+  repository      = github_repository.this.name
+  environment     = "approval_required"
+  wait_timer      = 0 # Optional: Set a wait timer (in minutes) for deployments to this environment
+
+  deployment_branch_policy {
+    protected_branches = true
+    custom_branch_policies = false # Set to true to allow specific branches
+  }
+}
+
 resource "github_actions_secret" "snyk_token" {
   repository       = github_repository.this.name
   secret_name      = "SNYK_TOKEN"
