@@ -67,12 +67,11 @@ jobs:
         run: |
           # Build a docker container and push it to ECR 
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          echo "IMAGE_NAME=${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}" >> $GITHUB_ENV
       - name: Output IMAGE_NAME
         id: output_image_name
         run: |
-          echo "IMAGE_NAME=${{ env.IMAGE_NAME }}" >> $GITHUB_OUTPUT
-  
+          echo "image_name=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+
   image_scan:
     needs: build
     runs-on: ubuntu-latest
@@ -88,7 +87,7 @@ jobs:
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        image: ${{ needs.build.outputs.image_name }}
         args: --file=Dockerfile
 
     - name: Upload result to GitHub Code Scanning
