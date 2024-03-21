@@ -73,7 +73,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get image name
-      run: echo ${{ env.IMAGE_NAME }}
+      run: ${{ env.IMAGE_NAME }}
     - name: Run Snyk to check Docker image for vulnerabilities
       continue-on-error: true
       uses: snyk/actions/docker@master
