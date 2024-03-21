@@ -39,7 +39,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
-          docker run --rm \
+          docker run --name snykdocker --rm \
             -e "SNYK_TOKEN=${SNYK_TOKEN}" \
             -v "/var/run/docker.sock:/var/run/docker.sock" \
             -v "$(pwd):/project" \
