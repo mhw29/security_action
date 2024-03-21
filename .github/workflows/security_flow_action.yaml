@@ -35,7 +35,7 @@ jobs:
           sarif_file: ./app/snyk-python.sarif
           category: python
 
-  build:
+  build_and_scan:
     needs: security
     runs-on: ubuntu-latest
     env:
@@ -83,29 +83,8 @@ jobs:
           sarif_file: snyk.sarif
           category: docker
 
-  image_scan:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Run Snyk to check Docker image for vulnerabilities
-      continue-on-error: true
-      uses: snyk/actions/docker@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        image: "${{ secrets.ECR_REPOSITORY_URI}}/${{ secrets.ECR_REPOSITORY_NAME}}:latest"
-        args: --file=Dockerfile
-
-    - name: Upload result to GitHub Code Scanning
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: snyk.sarif
-        category: docker
-        
   deploy:
-    needs: image_scan
+    needs: build_and_scan
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
