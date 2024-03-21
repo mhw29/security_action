@@ -17,10 +17,10 @@ ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=gitops_app.settings
 
 # Run Django migrations
-RUN python manage.py migrate
+#RUN python manage.py migrate
 
 # Collect static files
-RUN python manage.py collectstatic --noinput
+#RUN python manage.py collectstatic --noinput
 
 # Start the Django development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
