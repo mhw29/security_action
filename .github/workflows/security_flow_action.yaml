@@ -75,10 +75,6 @@ jobs:
   image_scan:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
-      IMAGE_TAG: latest
     steps:
     - uses: actions/checkout@v2
     - name: Run Snyk to check Docker image for vulnerabilities
