@@ -63,6 +63,31 @@ resource "github_actions_secret" "ecr_repository_name" {
   plaintext_value  = module.aws.ecr_repository_name
 }
 
+resource "github_actions_secret" "jira_url" {
+  repository       = github_repository.this.name
+  secret_name      = "JIRA_URL"
+  plaintext_value  = var.jira_url
+}
+
+resource "github_actions_secret" "jira_username" {
+  repository       = github_repository.this.name
+  secret_name      = "JIRA_USERNAME"
+  plaintext_value  = var.jira_username
+}
+
+resource "github_actions_secret" "jira_token" {
+  repository       = github_repository.this.name
+  secret_name      = "JIRA_TOKEN"
+  plaintext_value  = var.jira_token
+}
+
+resource "github_actions_secret" "jira_project" {
+  repository       = github_repository.this.name
+  secret_name      = "JIRA_PROJECT"
+  plaintext_value  = var.jira_project
+}
+
+
 module "aws" {
   source = "./aws"
 }

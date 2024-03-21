@@ -1,0 +1,291 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Snyk Container",
+          "properties": {
+            "artifactsScanned": 429
+          },
+          "rules": [
+            {
+              "id": "SNYK-DEBIAN12-EXPAT-6227597",
+              "shortDescription": {
+                "text": "High severity - Resource Exhaustion vulnerability in expat"
+              },
+              "fullDescription": {
+                "text": "(CVE-2023-52425) expat/libexpat1@2.5.0-1"
+              },
+              "help": {
+                "text": "",
+                "markdown": "## NVD Description\n**_Note:_** _Versions mentioned in the description apply only to the upstream `expat` package and not the `expat` package as distributed by `Debian`._\n_See `How to fix?` for `Debian:12` relevant fixed versions and status._\n\nlibexpat through 2.5.0 allows a denial of service (resource consumption) because many full reparsings are required in the case of a large token for which multiple buffer fills are needed.\n## Remediation\nThere is no fixed version for `Debian:12` `expat`.\n## References\n- [ADVISORY](https://security-tracker.debian.org/tracker/CVE-2023-52425)\n- [cve@mitre.org](https://github.com/libexpat/libexpat/pull/789)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/PNRIHC7DVVRAIWFRGV23Y6UZXFBXSQDB/)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/WNUBSGZFEZOBHJFTAD42SAN4ATW2VEMV/)\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-400",
+                  "deb"
+                ],
+                "cvssv3_baseScore": 7.5,
+                "security-severity": "7.5"
+              }
+            },
+            {
+              "id": "SNYK-DEBIAN12-GDKPIXBUF-6207393",
+              "shortDescription": {
+                "text": "High severity - Out-of-bounds Write vulnerability in gdk-pixbuf"
+              },
+              "fullDescription": {
+                "text": "(CVE-2022-48622) gdk-pixbuf/gir1.2-gdkpixbuf-2.0@2.42.10+dfsg-1+b1"
+              },
+              "help": {
+                "text": "",
+                "markdown": "## NVD Description\n**_Note:_** _Versions mentioned in the description apply only to the upstream `gdk-pixbuf` package and not the `gdk-pixbuf` package as distributed by `Debian`._\n_See `How to fix?` for `Debian:12` relevant fixed versions and status._\n\nIn GNOME GdkPixbuf (aka gdk-pixbuf) through 2.42.10, the ANI (Windows animated cursor) decoder encounters heap memory corruption (in ani_load_chunk in io-ani.c) when parsing chunks in a crafted .ani file. A crafted file could allow an attacker to overwrite heap metadata, leading to a denial of service or code execution attack. This occurs in gdk_pixbuf_set_option() in gdk-pixbuf.c.\n## Remediation\nThere is no fixed version for `Debian:12` `gdk-pixbuf`.\n## References\n- [ADVISORY](https://security-tracker.debian.org/tracker/CVE-2022-48622)\n- [cve@mitre.org](https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/202)\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-787",
+                  "deb"
+                ],
+                "cvssv3_baseScore": 7.8,
+                "security-severity": "7.8"
+              }
+            },
+            {
+              "id": "SNYK-DEBIAN12-SYSTEMD-6277507",
+              "shortDescription": {
+                "text": "High severity - Allocation of Resources Without Limits or Throttling vulnerability in systemd"
+              },
+              "fullDescription": {
+                "text": "(CVE-2023-50387) systemd/libsystemd0@252.22-1~deb12u1"
+              },
+              "help": {
+                "text": "",
+                "markdown": "## NVD Description\n**_Note:_** _Versions mentioned in the description apply only to the upstream `systemd` package and not the `systemd` package as distributed by `Debian`._\n_See `How to fix?` for `Debian:12` relevant fixed versions and status._\n\nCertain DNSSEC aspects of the DNS protocol (in RFC 4033, 4034, 4035, 6840, and related RFCs) allow remote attackers to cause a denial of service (CPU consumption) via one or more DNSSEC responses, aka the &#34;KeyTrap&#34; issue. One of the concerns is that, when there is a zone with many DNSKEY and RRSIG records, the protocol specification implies that an algorithm must evaluate all combinations of DNSKEY and RRSIG records.\n## Remediation\nThere is no fixed version for `Debian:12` `systemd`.\n## References\n- [ADVISORY](https://security-tracker.debian.org/tracker/CVE-2023-50387)\n- [cve@mitre.org](https://datatracker.ietf.org/doc/html/rfc4035)\n- [cve@mitre.org](https://docs.powerdns.com/recursor/security-advisories/powerdns-advisory-2024-01.html)\n- [cve@mitre.org](https://kb.isc.org/docs/cve-2023-50387)\n- [cve@mitre.org](https://news.ycombinator.com/item?id=39367411)\n- [cve@mitre.org](https://nlnetlabs.nl/news/2024/Feb/13/unbound-1.19.1-released/)\n- [cve@mitre.org](https://www.athene-center.de/aktuelles/key-trap)\n- [cve@mitre.org](https://www.isc.org/blogs/2024-bind-security-release/)\n- [cve@mitre.org](https://www.securityweek.com/keytrap-dns-attack-could-disable-large-parts-of-internet-researchers/)\n- [cve@mitre.org](https://www.theregister.com/2024/02/13/dnssec_vulnerability_internet/)\n- [cve@mitre.org](https://news.ycombinator.com/item?id=39372384)\n- [cve@mitre.org](https://gitlab.nic.cz/knot/knot-resolver/-/releases/v5.7.1)\n- [cve@mitre.org](https://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2024q1/017430.html)\n- [cve@mitre.org](https://access.redhat.com/security/cve/CVE-2023-50387)\n- [cve@mitre.org](https://bugzilla.suse.com/show_bug.cgi?id=1219823)\n- [cve@mitre.org](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-50387)\n- [cve@mitre.org](https://www.athene-center.de/fileadmin/content/PDF/Technical_Report_KeyTrap.pdf)\n- [cve@mitre.org](http://www.openwall.com/lists/oss-security/2024/02/16/2)\n- [cve@mitre.org](http://www.openwall.com/lists/oss-security/2024/02/16/3)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/SVYA42BLXUCIDLD35YIJPJSHDIADNYMP/)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BUIP7T7Z4T3UHLXFWG6XIVDP4GYPD3AI/)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/PNNHZSZPG2E7NBMBNYPGHCFI4V4XRWNQ/)\n- [cve@mitre.org](https://lists.debian.org/debian-lts-announce/2024/02/msg00006.html)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TEXGOYGW7DBS3N2QSSQONZ4ENIRQEAPG/)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UQESRWMJCF4JEYJEAKLRM6CT55GLJAB7/)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/HVRDSJVZKMCXKKPP6PNR62T7RWZ3YSDZ/)\n- [cve@mitre.org](https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RGS7JN6FZXUSTC2XKQHH27574XOULYYJ/)\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-770",
+                  "deb"
+                ],
+                "cvssv3_baseScore": 7.5,
+                "security-severity": "7.5"
+              }
+            },
+            {
+              "id": "SNYK-DEBIAN12-ZLIB-6008963",
+              "shortDescription": {
+                "text": "Critical severity - Integer Overflow or Wraparound vulnerability in zlib"
+              },
+              "fullDescription": {
+                "text": "(CVE-2023-45853) zlib/zlib1g@1:1.2.13.dfsg-1"
+              },
+              "help": {
+                "text": "",
+                "markdown": "## NVD Description\n**_Note:_** _Versions mentioned in the description apply only to the upstream `zlib` package and not the `zlib` package as distributed by `Debian`._\n_See `How to fix?` for `Debian:12` relevant fixed versions and status._\n\nMiniZip in zlib through 1.3 has an integer overflow and resultant heap-based buffer overflow in zipOpenNewFileInZip4_64 via a long filename, comment, or extra field. NOTE: MiniZip is not a supported part of the zlib product. NOTE: pyminizip through 0.2.6 is also vulnerable because it bundles an affected zlib version, and exposes the applicable MiniZip code through its compress API.\n## Remediation\nThere is no fixed version for `Debian:12` `zlib`.\n## References\n- [ADVISORY](https://security-tracker.debian.org/tracker/CVE-2023-45853)\n- [cve@mitre.org](https://chromium.googlesource.com/chromium/src/+/d709fb23806858847131027da95ef4c548813356)\n- [cve@mitre.org](https://chromium.googlesource.com/chromium/src/+/de29dd6c7151d3cd37cb4cf0036800ddfb1d8b61)\n- [cve@mitre.org](https://github.com/madler/zlib/blob/ac8f12c97d1afd9bafa9c710f827d40a407d3266/contrib/README.contrib#L1-L4)\n- [cve@mitre.org](https://github.com/madler/zlib/pull/843)\n- [cve@mitre.org](https://www.winimage.com/zLibDll/minizip.html)\n- [cve@mitre.org](http://www.openwall.com/lists/oss-security/2023/10/20/9)\n- [cve@mitre.org](https://lists.debian.org/debian-lts-announce/2023/11/msg00026.html)\n- [cve@mitre.org](https://security.netapp.com/advisory/ntap-20231130-0009/)\n- [cve@mitre.org](https://pypi.org/project/pyminizip/#history)\n- [cve@mitre.org](https://security.gentoo.org/glsa/202401-18)\n- [cve@mitre.org](http://www.openwall.com/lists/oss-security/2024/01/24/10)\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-190",
+                  "deb"
+                ],
+                "cvssv3_baseScore": 9.8,
+                "security-severity": "9.8"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "SNYK-DEBIAN12-EXPAT-6227597",
+          "level": "error",
+          "message": {
+            "text": "This file introduces a vulnerable expat package with a high severity vulnerability."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "expat@2.5.0-1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SNYK-DEBIAN12-GDKPIXBUF-6207393",
+          "level": "error",
+          "message": {
+            "text": "This file introduces a vulnerable gdk-pixbuf package with a high severity vulnerability."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "gdk-pixbuf@2.42.10+dfsg-1+b1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SNYK-DEBIAN12-SYSTEMD-6277507",
+          "level": "error",
+          "message": {
+            "text": "This file introduces a vulnerable systemd package with a high severity vulnerability."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "systemd@252.22-1~deb12u1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SNYK-DEBIAN12-ZLIB-6008963",
+          "level": "error",
+          "message": {
+            "text": "This file introduces a vulnerable zlib package with a critical severity vulnerability."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "zlib@1:1.2.13.dfsg-1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Snyk Container",
+          "properties": {
+            "artifactsScanned": 3
+          },
+          "rules": [
+            {
+              "id": "SNYK-PYTHON-DJANGO-6230369",
+              "shortDescription": {
+                "text": "High severity - Denial of Service (DoS) vulnerability in django"
+              },
+              "fullDescription": {
+                "text": "(CVE-2024-24680) django@4.2.9"
+              },
+              "help": {
+                "text": "",
+                "markdown": "## Overview\n\nAffected versions of this package are vulnerable to Denial of Service (DoS) in the `intcomma` template filter, when used with very long strings. Exploiting this vulnerability could lead to a system crash.\n\n## Details\n\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its intended and legitimate users.\n\nUnlike other vulnerabilities, DoS attacks usually do not aim at breaching security. Rather, they are focused on making websites and services unavailable to genuine users resulting in downtime.\n\nOne popular Denial of Service vulnerability is DDoS (a Distributed Denial of Service), an attack that attempts to clog network pipes to the system by generating a large volume of traffic from many machines.\n\nWhen it comes to open source libraries, DoS vulnerabilities allow attackers to trigger such a crash or crippling of the service by using a flaw either in the application code or from the use of open source libraries.\n\nTwo common types of DoS vulnerabilities:\n\n* High CPU/Memory Consumption- An attacker sending crafted requests that could cause the system to take a disproportionate amount of time to process. For example, [commons-fileupload:commons-fileupload](SNYK-JAVA-COMMONSFILEUPLOAD-30082).\n\n* Crash - An attacker sending crafted requests that could cause the system to crash. For Example,  [npm `ws` package](https://snyk.io/vuln/npm:ws:20171108)\n\n## Remediation\nUpgrade `django` to version 3.2.24, 4.2.10, 5.0.2 or higher.\n## References\n- [Django Release Notes](https://docs.djangoproject.com/en/5.0/releases/security/)\n- [Django Security Release](https://www.djangoproject.com/weblog/2024/feb/06/security-releases/)\n- [GitHub Commit](https://github.com/django/django/commit/16a8fe18a3b81250f4fa57e3f93f0599dc4895bc)\n- [GitHub Commit](https://github.com/django/django/commit/572ea07e84b38ea8de0551f4b4eda685d91d09d2)\n- [GitHub Commit](https://github.com/django/django/commit/c1171ffbd570db90ca206c30f8e2b9f691243820)\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-400",
+                  "pip"
+                ],
+                "cvssv3_baseScore": 7.5,
+                "security-severity": "7.5"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "SNYK-PYTHON-DJANGO-6230369",
+          "level": "error",
+          "message": {
+            "text": "This file introduces a vulnerable django package with a high severity vulnerability."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "django@4.2.9"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Snyk Container",
+          "properties": {
+            "artifactsScanned": 0
+          },
+          "rules": []
+        }
+      },
+      "results": []
+    }
+  ]
+}

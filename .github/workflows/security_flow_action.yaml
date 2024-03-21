@@ -29,6 +29,12 @@ jobs:
         run: |
           docker cp snykpython:/github/workspace/snyk-python.sarif ./app/snyk-python.sarif
 
+      - name: Add scan results to Jira
+        run: |
+          echo "Add scan results to Jira"
+          pip install jira
+          python ./helpers/sarif_parser.py --jira_url "${{ secrets.JIRA_URL }}" --jira_username "${{ secrets.JIRA_USERNAME }}" --jira_token "${{ secrets.JIRA_TOKEN }}" --project_key "${{ secrets.JIRA_PROJECT }}" --sarif_file "./app/snyk-python.sarif"
+      
       - name: Upload python result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:

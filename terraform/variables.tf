@@ -18,3 +18,23 @@ variable aws_secret_access_key {
   description = "The secret access key used to connect to AWS"
 }
 
+variable jira_url {
+  type        = string
+  description = "JIRA instance URL"
+}
+
+variable jira_username {
+  type        = string
+  description = "JIRA username"
+}
+
+variable jira_token {
+  type        = string
+  description = "JIRA API token"
+}
+
+variable jira_project {
+  type        = string
+  description = "JIRA project key"
+  default     = "VER"
+}
