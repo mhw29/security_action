@@ -41,6 +41,16 @@ jobs:
           sarif_file: ./app/snyk-python.sarif
           category: python
 
+      - name: Check SARIF for findings
+        id: check_findings
+        run: |
+          findings_count=$(jq '.runs[].results | length' ./app/snyk-python.sarif)
+          if [[ "$findings_count" -gt 0 ]]; then
+            echo "findings=true" >> $GITHUB_ENV
+          else
+            echo "findings=false" >> $GITHUB_ENV
+          fi
+
   build_and_scan:
     needs: security
     runs-on: ubuntu-latest
