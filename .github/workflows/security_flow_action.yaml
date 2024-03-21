@@ -41,7 +41,7 @@ jobs:
     env:
       IMAGE_NAME: example_django_app
     outputs:
-      image_name: ${{ steps.build-image.outputs.IMAGE_NAME }}
+      image_name: ${{ steps.build-image.outputs.image_name }}
 
     steps:
       - name: Checkout
