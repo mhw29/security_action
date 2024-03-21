@@ -35,25 +35,6 @@ jobs:
           sarif_file: ./app/snyk-python.sarif
           category: python
 
-      - name: Scan the Docker image with Snyk
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          docker run --name snykdocker --workdir /github/workspace \
-            -e "SNYK_TOKEN=${SNYK_TOKEN}" \
-            -v "/var/run/docker.sock:/var/run/docker.sock" \
-            -v "$(pwd):/github/workspace" \
-            snyk/snyk:docker snyk test --docker ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --file=Dockerfile  --sarif-file-output=snyk-docker.sarif || true
-        
-      - name: Get snyk-docker.sarif
-        run: |
-          docker cp snykdocker:/github/workspace/snyk-docker.sarif ./app/snyk-docker.sarif
-
-      - name: Upload docker result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: ./app/snyk-docker.sarif
-          category: docker
   build:
     needs: security
     runs-on: ubuntu-latest
@@ -87,7 +68,25 @@ jobs:
           echo "Pushing image to ECR..."
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+  
+  image_scan:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Scan the image
+        uses: snyk/actions/docker@master
+        with:
+          image: ${{ needs.build.outputs.image }}
+          args: --file=Dockerfile
+        env: 
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        
   deploy:
     needs: build
     runs-on: ubuntu-latest
