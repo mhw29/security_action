@@ -86,16 +86,17 @@ jobs:
       # - name: Login to Amazon ECR
       #   uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Scan the image
-        uses: snyk/actions/docker@master
-        with:
-          args: --file=Dockerfile --sarif-file-output=snyk-docker.sarif
-        env: 
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          INPUT_IMAGE: ${{ needs.build.outputs.image }}
-
+      - name: Scan the built image with Snyk
+        run: |
+          SNYK_TOKEN=${{ secrets.SNYK_TOKEN }}
+          IMAGE_NAME=${{ needs.build.outputs.image_name }}
+          IMAGE_TAG=${{ needs.build.outputs.image_tag }}
+          docker run --rm \
+            -e "SNYK_TOKEN=${SNYK_TOKEN}" \
+            -v "/var/run/docker.sock:/var/run/docker.sock" \
+            snyk/snyk:docker snyk test --docker $IMAGE_NAME:$IMAGE_TAG --file=Dockerfile --sarif-file-output=snyk-docker.sarif
       - name: Upload Snyk report as sarif
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk-docker.sarif
         
