@@ -34,7 +34,7 @@ def issue_exists(summary):
 # Function to create a JIRA issue for each finding, if it doesn't already exist
 def create_jira_issue(finding):
     summary = finding["shortDescription"]["text"]
-    description = finding.get("fullDescription", {}).get("text", "")
+    description = finding.get("help", {}).get("markdown", "")
 
     if issue_exists(summary):
         print(f"An issue with summary '{summary}' already exists. Skipping.")
