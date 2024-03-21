@@ -7,5 +7,10 @@ resource "aws_ecr_repository" "this" {
         image_tag_mutability = "MUTABLE"
 }
 
+resource "aws_s3_bucket" "this" {
+        bucket = "cn-security-action"
+        acl    = "private"
+}
+
 
 
