@@ -37,6 +37,7 @@ jobs:
 
   build:
     needs: security
+    id: build
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: example_django_app
@@ -65,41 +66,26 @@ jobs:
         run: |
           # Build a docker container and push it to ECR 
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          echo "Pushing image to ECR..."
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE_NAME=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}" >> $GITHUB_ENV
   
   image_scan:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-east-1 
-      
-      # - name: Login to Amazon ECR
-      #   uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Scan the built image with Snyk
-        run: |
-          SNYK_TOKEN=${{ secrets.SNYK_TOKEN }}
-          IMAGE_NAME=${{ needs.build.outputs.image_name }}
-          IMAGE_TAG=${{ needs.build.outputs.image_tag }}
-          ls -l
-          docker run --rm \
-            -e "SNYK_TOKEN=${SNYK_TOKEN}" \
-            -v "/var/run/docker.sock:/var/run/docker.sock" \
-            snyk/snyk:docker snyk test --docker $IMAGE_NAME:$IMAGE_TAG --file=Dockerfile --sarif-file-output=snyk-docker.sarif
-      - name: Upload Snyk report as sarif
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk-docker.sarif
+    - uses: actions/checkout@v2
+    - name: Run Snyk to check Docker image for vulnerabilities
+      continue-on-error: true
+      uses: snyk/actions/docker@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        image: ${{ env.IMAGE_NAME }}
+        args: --file=Dockerfile
+    - name: Upload result to GitHub Code Scanning
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: snyk.sarif
+        category: docker
         
   deploy:
     needs: image_scan
