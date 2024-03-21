@@ -91,6 +91,7 @@ jobs:
           SNYK_TOKEN=${{ secrets.SNYK_TOKEN }}
           IMAGE_NAME=${{ needs.build.outputs.image_name }}
           IMAGE_TAG=${{ needs.build.outputs.image_tag }}
+          ls -l
           docker run --rm \
             -e "SNYK_TOKEN=${SNYK_TOKEN}" \
             -v "/var/run/docker.sock:/var/run/docker.sock" \
