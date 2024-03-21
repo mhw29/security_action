@@ -74,6 +74,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - env:
+        OUTPUT1: ${{needs.build.outputs.image_name}}
+      run: echo "The value of the output for imge name is $OUTPUT1"
     - name: Run Snyk to check Docker image for vulnerabilities
       continue-on-error: true
       uses: snyk/actions/docker@master
