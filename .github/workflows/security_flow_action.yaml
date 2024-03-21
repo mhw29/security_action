@@ -16,24 +16,44 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Run Snyk to check for vulnerabilities (Docker)
+      - name: Run Snyk to check for vulnerabilities (Python)
         run: |
           docker run --name snykpython --workdir /github/workspace \
             -e "SNYK_TOKEN=${{ secrets.SNYK_TOKEN }}" \
             -e "GITHUB_ACTIONS=true" \
             -e "CI=true" \
             -v "/home/runner/work/security_action/security_action/app:/github/workspace" \
-            snyk/snyk:python  snyk test --sarif-file-output=snyk.sarif || true
+            snyk/snyk:python  snyk test --sarif-file-output=snyk-python.sarif || true
 
       - name: Get snyk.sarif
         run: |
-          docker cp snykpython:/github/workspace/snyk.sarif ./app/snyk.sarif
+          docker cp snykpython:/github/workspace/snyk-python.sarif ./app/snyk-python.sarif
 
-      - name: Upload result to GitHub Code Scanning
+      - name: Upload python result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ./app/snyk.sarif
-  
+          sarif_file: ./app/snyk-python.sarif
+          category: Python
+
+      - name: Scan the Docker image with Snyk
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          docker run --rm \
+            -e "SNYK_TOKEN=${SNYK_TOKEN}" \
+            -v "/var/run/docker.sock:/var/run/docker.sock" \
+            -v "$(pwd):/project" \
+            snyk/snyk:docker snyk test --docker ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --file=Dockerfile  --sarif-file-output=snyk-docker.sarif || true
+        
+        - name: Get snyk-docker.sarif
+          run: |
+            docker cp snykdocker:/github/workspace/snyk-docker.sarif ./app/snyk-docker.sarif
+
+        - name: Upload docker result to GitHub Code Scanning
+          uses: github/codeql-action/upload-sarif@v3
+          with:
+            sarif_file: ./app/snyk-docker.sarif
+            category: Docker
   build:
     needs: security
     runs-on: ubuntu-latest
@@ -55,7 +75,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push the image to Amazon ECR
+      - name: Build and tag the image
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
