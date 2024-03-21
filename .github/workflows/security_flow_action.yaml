@@ -37,7 +37,6 @@ jobs:
 
   build:
     needs: security
-    id: build
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: example_django_app
