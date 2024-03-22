@@ -36,5 +36,5 @@ variable jira_token {
 variable jira_project {
   type        = string
   description = "JIRA project key"
-  default     = "VER"
+  default     = "GA"
 }
