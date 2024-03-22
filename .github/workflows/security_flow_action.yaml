@@ -49,8 +49,10 @@ jobs:
           findings_count=$(jq '[.runs[].results | length] | add' ./app/snyk-python.sarif)
           if [[ "$findings_count" -gt 0 ]]; then
             echo "findings=true" >> $GITHUB_ENV
+            echo "::set-output name=findings::true"
           else
             echo "findings=false" >> $GITHUB_ENV
+            echo "::set-output name=findings::false"
           fi
 
   build_and_scan:
