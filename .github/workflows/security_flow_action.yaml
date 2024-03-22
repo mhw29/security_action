@@ -46,7 +46,7 @@ jobs:
       - name: Check SARIF for findings
         id: check_findings
         run: |
-          findings_count=$(jq '.runs[].rules | length' ./app/snyk-python.sarif)
+          findings_count=$(jq '[.runs[].results | length] | add' ./app/snyk-python.sarif)
           if [[ "$findings_count" -gt 0 ]]; then
             echo "findings=true" >> $GITHUB_ENV
           else
