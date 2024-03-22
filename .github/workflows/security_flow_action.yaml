@@ -13,6 +13,8 @@ permissions:
 jobs:
   security:
     runs-on: ubuntu-latest
+    outputs:
+      findings: ${{ steps.check_findings.outputs.findings }}
     steps:
       - uses: actions/checkout@master
 
@@ -123,9 +125,23 @@ jobs:
   #   steps:
   #     - name: Wait for Approval
   #       run: echo "This job requires manual approval because findings were detected."
-
+  review_and_approve:
+    if: needs.security.outputs.findings == 'true'
+    needs: [security, build_and_scan]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: mhw29
+          minimum-approvals: 1
+          issue-title: "Security findings detected. Please review and approve."
+          issue-body: "Please approve or deny the build to continue deployment."
+          exclude-workflow-initiator-as-approver: false
+          additional-approved-words: ''
+          additional-denied-words: ''
   deploy:
-    needs: build_and_scan
+    needs: [build_and_scan, review_and_approve]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
