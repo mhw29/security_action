@@ -6,6 +6,7 @@ resource "github_repository" "this" {
   name        = "security_action"
   description = "This repository stores the github action example for security scanning"
   private     = false
+  has_issues  = true
 
   security_and_analysis {
     # advanced_security {
