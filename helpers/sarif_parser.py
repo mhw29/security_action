@@ -27,7 +27,7 @@ jira = JIRA(basic_auth=(jira_username, jira_token), options={"server": jira_url}
 
 # Function to check for existing issues with the same summary
 def issue_exists(summary):
-    query = f'project = "{project_key}" AND summary ~ "\"{summary}"\"'
+    query = f'project = "{project_key}" AND summary ~ "\\"{summary}"\\"'
     issues = jira.search_issues(query)
     return len(issues) > 0
 
