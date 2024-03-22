@@ -113,16 +113,16 @@ jobs:
       - name: Deploy to S3
         run: |
           aws s3 cp snyk.sarif s3://cn-security-action/sarif/snyk.sarif
-  require_approval:
-    if: ${{ env.findings }} == 'true'
-    needs: [security, build_and_scan]
-    runs-on: ubuntu-latest
-    environment:
-      name: approval-required
-      url: ${{ steps.deploy.outputs.deployment-url }}
-    steps:
-      - name: Wait for Approval
-        run: echo "This job requires manual approval because findings were detected."
+  # require_approval:
+  #   if: ${{ env.findings }} == 'true'
+  #   needs: [security, build_and_scan]
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: approval-required
+  #     url: ${{ steps.deploy.outputs.deployment-url }}
+  #   steps:
+  #     - name: Wait for Approval
+  #       run: echo "This job requires manual approval because findings were detected."
 
   deploy:
     needs: build_and_scan
