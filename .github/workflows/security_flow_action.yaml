@@ -117,6 +117,11 @@ jobs:
           IMAGE_TAG: latest
         run: |
           docker save -o image.tar $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image
+          path: image.tar
       # - name: Set AWS credentials
       #   uses: aws-actions/configure-aws-credentials@v1
       #   with:
@@ -154,10 +159,7 @@ jobs:
   deploy:
     needs: [build_and_scan, review_and_approve]
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
+    steps:    
     - name: Download Docker image
       uses: actions/download-artifact@v2
       with:
